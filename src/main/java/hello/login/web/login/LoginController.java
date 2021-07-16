@@ -24,11 +24,11 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class LoginController {
 
-    public final LoginService loginService;
+    private final LoginService loginService;
     private final SessionManager sessionManager;
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm form){
+    public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
         return "login/loginForm";
     }
 
@@ -73,6 +73,7 @@ public class LoginController {
         sessionManager.createSession(loginMember, response);
 
         return "redirect:/";
+
     }
 
 //    @PostMapping("/login")
@@ -98,10 +99,12 @@ public class LoginController {
 
     }
 
+
     @PostMapping("/login")
     public String loginV4(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
                           @RequestParam(defaultValue = "/") String redirectURL,
                           HttpServletRequest request) {
+
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
         }
@@ -119,12 +122,12 @@ public class LoginController {
         //세션에 로그인 회원 정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
-        return "redirect:" + redirectURL ;
+        return "redirect:" + redirectURL;
 
     }
 
 //    @PostMapping("/logout")
-    public String logout(HttpServletResponse response){
+    public String logout(HttpServletResponse response) {
         expireCookie(response, "memberId");
         return "redirect:/";
     }
@@ -138,7 +141,7 @@ public class LoginController {
     @PostMapping("/logout")
     public String logoutV3(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session != null){
+        if (session != null) {
             session.invalidate();
         }
         return "redirect:/";

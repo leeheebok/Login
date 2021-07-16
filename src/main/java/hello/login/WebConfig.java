@@ -2,6 +2,7 @@ package hello.login;
 
 import hello.login.web.argumentresolver.LoginMemberArgumentResolver;
 import hello.login.web.filter.LogFilter;
+import hello.login.web.filter.LoginCheckFilter;
 import hello.login.web.interceptor.LogInterceptor;
 import hello.login.web.interceptor.LoginCheckInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -36,23 +37,23 @@ public class WebConfig implements WebMvcConfigurer {
                         "/css/**", "/*.ico", "/error");
     }
 
-//    @Bean
-    public FilterRegistrationBean logFilter(){
+    @Bean
+    public FilterRegistrationBean logFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new LogFilter());
         filterRegistrationBean.setOrder(1);
         filterRegistrationBean.addUrlPatterns("/*");
 
-        return  filterRegistrationBean;
+        return filterRegistrationBean;
     }
 
 //    @Bean
-    public FilterRegistrationBean loginCheckFilter(){
+    public FilterRegistrationBean loginCheckFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new LogFilter());
+        filterRegistrationBean.setFilter(new LoginCheckFilter());
         filterRegistrationBean.setOrder(2);
         filterRegistrationBean.addUrlPatterns("/*");
 
-        return  filterRegistrationBean;
+        return filterRegistrationBean;
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
@@ -22,6 +21,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
         boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
+
         return hasLoginAnnotation && hasMemberType;
     }
 
@@ -30,9 +30,9 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
         log.info("resolveArgument 실행");
 
-        HttpServletRequest request =(HttpServletRequest) webRequest.getNativeRequest();
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession(false);
-        if(session == null){
+        if (session == null) {
             return null;
         }
 
